@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="Yarhl" Version="2.0.0" />
+    <PackageReference Include="Yarhl.Media" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>
