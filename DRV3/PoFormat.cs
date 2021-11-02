@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Yarhl.FileFormat;
 using Yarhl.IO;
 using Yarhl.Media.Text;
@@ -47,7 +46,7 @@ namespace DRV3
             {
                 string sentence;
 
-                num.Add(uint.Parse( string.Concat(entry.Context.Substring(0,4)))); 
+                num.Add(uint.Parse(string.Concat(entry.Context.Substring(0, 4))));
 
                 if (entry.Original == "[EMPTY_LINE]")
                 {
@@ -61,7 +60,7 @@ namespace DRV3
                 {
                     sentence = entry.Original;
                 }
-				
+
                 translatedSentences.Add(sentence); //And finally save the sentence.
             }
 

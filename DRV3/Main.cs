@@ -1,6 +1,5 @@
 ﻿// Credits to https://github.com/jpmac26 for explain me how DRV3's files work.
 
-using System;
 using System.IO;
 
 namespace DRV3
@@ -19,10 +18,11 @@ namespace DRV3
                 if (MagicID.Check(STXfile, MagicID.STX))
                 {
                     STX STXobject = new STX(STXfile, WRDFolder);
-                    if(UseTxtInsteadOfPo)
+                    if (UseTxtInsteadOfPo)
                     {
                         STXobject.ConvertToTxt(outFolder);
-                    } else
+                    }
+                    else
                     {
                         STXobject.ConvertToPo(outFolder);
                     }
@@ -45,7 +45,7 @@ namespace DRV3
 
             uint found = 0;
 
-            if(UseTxtInsteadOfPo)
+            if (UseTxtInsteadOfPo)
             {
                 foreach (string txtFile in Directory.GetFiles(outFileFolder, "*.txt", SearchOption.TopDirectoryOnly))
                 {

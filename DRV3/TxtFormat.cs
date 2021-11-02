@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO;
-using Yarhl.IO;
-using Yarhl.FileFormat;
 using System.Linq;
 
 namespace DRV3
@@ -54,7 +50,7 @@ namespace DRV3
                 // We don't care about the WRD folder
                 STX mystx = new STX(originalSTX, "");
                 num = mystx.GetNumENG().ToList();
-                if(num.Count > 0)
+                if (num.Count > 0)
                 {
                     couldReadOriginalSTX = true;
                 }
@@ -64,17 +60,17 @@ namespace DRV3
             {
                 string sentence;
 
-                if(entry == "{" && Index == 0)
+                if (entry == "{" && Index == 0)
                 {
                     continue;
                 }
 
-                if(entry == "}" && Index == redSentences.Count - 1)
+                if (entry == "}" && Index == redSentences.Count - 1)
                 {
                     continue;
                 }
 
-                if(!couldReadOriginalSTX)
+                if (!couldReadOriginalSTX)
                 {
                     // This is a workaround and it should work in most cases
                     // If possible, use .po files instead

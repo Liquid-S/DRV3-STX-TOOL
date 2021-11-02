@@ -181,7 +181,7 @@ namespace DRV3
                 sentencesENG[i] = sentencesENG[i].Replace("\n", "\\n");
             }
 
-                if (!Directory.Exists(DestinationDir))
+            if (!Directory.Exists(DestinationDir))
             {
                 Directory.CreateDirectory(DestinationDir);
             }

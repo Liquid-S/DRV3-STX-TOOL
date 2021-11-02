@@ -109,7 +109,7 @@ namespace CLI
                 ExecuteSelectedOption();
             }
 
-            if(shouldReloadAfter)
+            if (shouldReloadAfter)
             {
                 doAction = false;
                 PrintFullInterface(keyPressedByUser);
@@ -168,7 +168,7 @@ namespace CLI
 
                 case ConsoleKey.Enter:
                     {
-                        if(!shouldReloadAfter)
+                        if (!shouldReloadAfter)
                         {
                             doAction = true;
                         }
@@ -216,7 +216,8 @@ namespace CLI
                     if (found == 0)
                     {
                         InputOutput.ShowMessages.EventMessage("No suitable files found! Try changing the option in the main menu.");
-                    } else
+                    }
+                    else
                     {
                         InputOutput.ShowMessages.EventMessage("Done!");
                     }
