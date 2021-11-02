@@ -1,5 +1,6 @@
 ﻿// Credits to https://github.com/jpmac26 for explain me how DRV3's files work.
 
+using System;
 using System.IO;
 
 namespace DRV3
@@ -29,7 +30,7 @@ namespace DRV3
             }
         }
 
-        public static void RepackText(string outFileFolder, string STX_Folder)
+        public static uint RepackText(string outFileFolder, string STX_Folder)
         {
             string RepackFolder = "REPACKED FILES";
 
@@ -42,12 +43,15 @@ namespace DRV3
 
             // Iterate all the files in the STXFolder directory (without searching in the subdirectories)
 
+            uint found = 0;
+
             if(UseTxtInsteadOfPo)
             {
                 foreach (string txtFile in Directory.GetFiles(outFileFolder, "*.txt", SearchOption.TopDirectoryOnly))
                 {
                     TxtFormat tF = new TxtFormat(txtFile, STX_Folder);
                     tF.BuildSTX(RepackFolder);
+                    ++found;
                 }
             }
             else
@@ -56,8 +60,11 @@ namespace DRV3
                 {
                     PoFormat pF = new PoFormat(poFile, STX_Folder);
                     pF.BuildSTX(RepackFolder);
+                    ++found;
                 }
             }
+
+            return found;
         }
     }
 }

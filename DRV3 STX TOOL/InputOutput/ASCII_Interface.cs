@@ -212,8 +212,14 @@ namespace CLI
                 else
                 {
                     InputOutput.ShowMessages.EventMessage("Wait...\n");
-                    DRV3.Main.RepackText(outFormatFolder, configF.STX_Folder);
-                    InputOutput.ShowMessages.EventMessage("Done!");
+                    uint found = DRV3.Main.RepackText(outFormatFolder, configF.STX_Folder);
+                    if (found == 0)
+                    {
+                        InputOutput.ShowMessages.EventMessage("No suitable files found! Try changing the option in the main menu.");
+                    } else
+                    {
+                        InputOutput.ShowMessages.EventMessage("Done!");
+                    }
                 }
             }
             else if (currentSelection == 3)
