@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -101,6 +102,7 @@ namespace DRV3
                             // you manually edit the files in the "EXTRACTED FILES" folder
                             // and accidently add a line or more
                             OutFileBW.Write((uint)i);
+                            Console.WriteLine("Something is wrong about this file (wrong number of lines?): " + STXFFIleName.Replace(".stx", ".txt"));
                         }
                         else
                         {
