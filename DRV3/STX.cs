@@ -49,40 +49,53 @@ namespace DRV3
                 br.ReadUInt32(); // MagicID
                 br.ReadUInt32(); // lang
                 br.ReadUInt32(); // unk1
-                headerSize = br.ReadUInt32();
+                headerSize = br.ReadUInt32(); // Read header size (in hex)
                 br.ReadUInt32(); //unk2
                 NpointersToRead = br.ReadUInt32();
 
-                uint[] pointers = new uint[NpointersToRead];
-                uint[] num = new uint[NpointersToRead];
-                sentences = new string[NpointersToRead];
+                uint[] pointers = new uint[NpointersToRead]; // pointers to positions in the file
+                uint[] num = new uint[NpointersToRead]; // "number" of each pointer
+                sentences = new string[NpointersToRead]; // the number of pointers corresponds to the number of sentences
 
+                // Skip the header
                 fs.Seek(headerSize, SeekOrigin.Begin);
 
+                // All the pointers are close to one another
+                // so we can read them one after the other
                 for (uint i = 0; i < NpointersToRead; i++)
                 {
+                    // "num[i] = i" cannot be used because
+                    // of string deduplication issues
+                    // (which are edge cases)
                     num[i] = br.ReadUInt32();
                     pointers[i] = br.ReadUInt32();
                 }
 
+                //
                 for (uint i = 0; i < NpointersToRead; i++)
                 {
+                    // For (NpointersToRead), jump to the position
+                    // of the pointer, and read the data from there
                     fs.Seek(pointers[i], SeekOrigin.Begin);
 
                     ushort Letter = 0;
                     string tempSentence = string.Empty;
 
+                    // Read the string until an unsupported character is found,
+                    // or the end of stream is reached
                     while ((fs.Position != fs.Length) && (Letter = br.ReadUInt16()) > 0)
                     {
                         tempSentence += (char)Letter;
                     }
 
+                    // If the string is empty, replace it with "[EMPTY_LINE]"
                     if (tempSentence == string.Empty)
                     {
                         sentences[i] = "[EMPTY_LINE]";
                     }
                     else
                     {
+                        // Replace \r\n with \n first, then delete any remaining \r
                         sentences[i] = tempSentence.Replace("\r\n", "\n").Replace("\r", string.Empty);
                     }
                 }
@@ -135,7 +148,7 @@ namespace DRV3
                     entry.Original = sentencesENG[i];
                 }
 
-                if (sentencesJAP.Any() && sentencesJAP.Length > i && sentencesJAP[i].Length > 0)
+                if (sentencesJAP != null && sentencesJAP.Any() && sentencesJAP.Length >= i && sentencesJAP[i].Length > 0)
                 {
                     // The "replaces" are a fix for a Yarhl's bug.
                     entry.ExtractedComments = sentencesJAP[i].Replace("\r\n", "\n#. ").Replace("\n\r", "\n#. ").Replace("\n", "\n#. ").Replace("\r", string.Empty); ;
@@ -154,5 +167,37 @@ namespace DRV3
             po.ConvertWith<Po2Binary, Po, BinaryFormat>().Stream.WriteTo(NewPOAddress);
         }
 
+        public void ConvertToTxt(string DestinationDir)
+        {
+
+            string NewTXTAddress = Path.Combine(DestinationDir, filename + ".txt");
+
+            for (int i = 0; i < sentencesENG.Length; i++)
+            {
+                if (sentencesENG[i] == "" || sentencesENG[i] == string.Empty)
+                {
+                    sentencesENG[i] = "[EMPTY_LINE]";
+                }
+
+                sentencesENG[i] = sentencesENG[i].Replace("\n", "\\n");
+            }
+
+                if (!Directory.Exists(DestinationDir))
+            {
+                Directory.CreateDirectory(DestinationDir);
+            }
+
+            File.WriteAllLines(NewTXTAddress, sentencesENG);
+        }
+
+        public uint[] GetNumENG()
+        {
+            return numENG;
+        }
+
+        public uint[] GetNumJAP()
+        {
+            return numJAP;
+        }
     }
 }

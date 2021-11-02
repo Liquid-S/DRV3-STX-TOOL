@@ -39,10 +39,11 @@ namespace CLI
         /// <summary>
         /// Contains the options from the Main Menu.
         /// </summary>
-        private readonly string[] mainMenu = new[]{
+        private string[] mainMenu = new[]{
                             @"  +----------------------------------------+",
                             @"       Extract text",
                             @"       Repack  text",
+                            @"       Option: Use TXT instead of PO: No Selection (False)",
                             @"       Exit",
                             @"  +----------------------------------------+",
                             @""
@@ -57,6 +58,11 @@ namespace CLI
         /// Changes to "true" when the user press "Enter". This boolean is used by "PrintMainMenu" to do the action chosen by the user only after the Interface has been printed.
         /// </summary>
         private bool doAction = false;
+
+        /// <summary>
+        /// Changes to "true" when the user changes an option.
+        /// </summary>
+        private bool shouldReloadAfter = false;
 
         /// <summary>
         /// Contains all the options saved from the user.
@@ -96,9 +102,17 @@ namespace CLI
 
             PrintMenuAndHighlightFocusedOption(mainMenu);
 
+            shouldReloadAfter = false;
+
             if (doAction)
             {
                 ExecuteSelectedOption();
+            }
+
+            if(shouldReloadAfter)
+            {
+                doAction = false;
+                PrintFullInterface(keyPressedByUser);
             }
         }
 
@@ -126,7 +140,7 @@ namespace CLI
                 }
                 else
                 {
-                    Console.Write(mainMenu[i] + "\n");
+                    Console.Write(menu[i] + "\n");
                 }
             }
         }
@@ -154,7 +168,10 @@ namespace CLI
 
                 case ConsoleKey.Enter:
                     {
-                        doAction = true;
+                        if(!shouldReloadAfter)
+                        {
+                            doAction = true;
+                        }
                         break;
                     }
             }
@@ -181,11 +198,12 @@ namespace CLI
             }
             else if (currentSelection == 2)
             {
-                string poFolder = "EXTRACTED FILES";
+                string outFormatFolder = "EXTRACTED FILES";
 
-                if (!Directory.Exists(poFolder) || Directory.GetFiles(poFolder, "*.po").Length == 0)
+                if (!Directory.Exists(outFormatFolder) ||
+                    ((Directory.GetFiles(outFormatFolder, "*.po").Length == 0) && (Directory.GetFiles(outFormatFolder, "*.txt").Length == 0)))
                 {
-                    InputOutput.ShowMessages.ErrorMessage($"{poFolder} folder doesn't exist or it's empty!");
+                    InputOutput.ShowMessages.ErrorMessage($"{outFormatFolder} folder doesn't exist or it's empty!");
                 }
                 else if (!Directory.Exists(configF.STX_Folder))
                 {
@@ -194,9 +212,15 @@ namespace CLI
                 else
                 {
                     InputOutput.ShowMessages.EventMessage("Wait...\n");
-                    DRV3.Main.RepackText(poFolder, configF.STX_Folder);
+                    DRV3.Main.RepackText(outFormatFolder, configF.STX_Folder);
                     InputOutput.ShowMessages.EventMessage("Done!");
                 }
+            }
+            else if (currentSelection == 3)
+            {
+                DRV3.Main.UseTxtInsteadOfPo = !DRV3.Main.UseTxtInsteadOfPo;
+                mainMenu[3] = "       Option: Use TXT instead of PO: " + DRV3.Main.UseTxtInsteadOfPo;
+                shouldReloadAfter = true;
             }
             else if (currentSelection == mainMenu.Length - 3)
             {
