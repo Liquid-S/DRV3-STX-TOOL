@@ -28,7 +28,7 @@ namespace DRV3
         /// <summary>
         /// Read the all text from a file ".txt".
         /// </summary>
-        /// <param name="TxtAddress">Txt absulute position.</param>
+        /// <param name="TxtAddress">Txt absolute position.</param>
         /// <returns></returns>
         private (List<string>, List<uint>) ExtractTextFromTxt(string TxtAddress)
         {
@@ -48,8 +48,6 @@ namespace DRV3
             // necessary to read the original file, since ".txt" files don't have
             // a "line number" like ".po" files do.
             bool couldReadOriginalSTX = false;
-
-            Console.WriteLine("Original stx: " + originalSTX);
 
             if (File.Exists(originalSTX))
             {

@@ -28,7 +28,7 @@ namespace DRV3
         /// <summary>
         /// Read the all text from a file ".po".
         /// </summary>
-        /// <param name="PoAddress">Po absulute position.</param>
+        /// <param name="PoAddress">Po absolute position.</param>
         /// <returns></returns>
         private (List<string>, List<uint>) ExtractTextFromPo(string PoAddress)
         {
