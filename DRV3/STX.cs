@@ -71,7 +71,6 @@ namespace DRV3
                     pointers[i] = br.ReadUInt32();
                 }
 
-                //
                 for (uint i = 0; i < NpointersToRead; i++)
                 {
                     // For (NpointersToRead), jump to the position
