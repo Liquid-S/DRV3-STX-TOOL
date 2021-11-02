@@ -112,7 +112,8 @@ namespace DRV3
                         OutFileBW.Write((uint)sentencesOffeset[i]);
                     }
                 }
-            } else
+            }
+            else
             {
                 Console.WriteLine("Original STX file for " + STXFFIleName.Replace(".stx", ".txt") + " not found!");
             }
