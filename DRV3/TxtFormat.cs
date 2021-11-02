@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -19,6 +20,10 @@ namespace DRV3
             }
 
             (sentences, num) = ExtractTextFromTxt(TxtAddress);
+            if (sentences == null || num == null)
+            {
+                Console.WriteLine("Could not read TXT File");
+            }
         }
 
         /// <summary>
@@ -36,8 +41,13 @@ namespace DRV3
                 redSentences.Add(line);
             }
 
+            if (redSentences.Count == 0)
+            {
+                return (null, null);
+            }
+
             uint Index = 0;
-            List<uint> num = new List<uint>();
+            num = new List<uint>();
 
             // We need to read the original STX to know the pointer numbers.
             // This isn't needed in most cases, but in some edge cases it is
@@ -56,6 +66,8 @@ namespace DRV3
                 }
             }
 
+            bool lastStringIsEmpty = redSentences[redSentences.Count - 1].Length == 0;
+
             foreach (string entry in redSentences)
             {
                 string sentence;
@@ -65,19 +77,18 @@ namespace DRV3
                     continue;
                 }
 
-                if (entry == "}" && Index == redSentences.Count - 1)
+                if (entry == "}" && Index == redSentences.Count - (lastStringIsEmpty ? 3 : 2))
                 {
-                    continue;
+                    break;
                 }
 
                 if (!couldReadOriginalSTX)
                 {
                     // This is a workaround and it should work in most cases
                     // If possible, use .po files instead
-
-                    // Post-increment, so it stores the value of Index before incrementing it
-                    num.Add(Index++);
+                    num.Add(Index);
                 }
+                ++Index;
 
                 if (entry == "[EMPTY_LINE]")
                 {

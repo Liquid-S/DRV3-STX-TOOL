@@ -95,7 +95,18 @@ namespace DRV3
 
                     for (int i = 0; i < sentences.Count; i++)
                     {
-                        OutFileBW.Write((uint)num[i]);
+                        if (num.Count == 0 || i >= num.Count)
+                        {
+                            // Workaround, this should never happen unless
+                            // you manually edit the files in the "EXTRACTED FILES" folder
+                            // and accidently add a line or more
+                            OutFileBW.Write((uint)i);
+                        }
+                        else
+                        {
+                            OutFileBW.Write((uint)num[i]);
+                        }
+
                         OutFileBW.Write((uint)sentencesOffeset[i]);
                     }
                 }
