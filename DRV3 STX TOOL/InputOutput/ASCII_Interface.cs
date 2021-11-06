@@ -198,7 +198,7 @@ namespace CLI
             }
             else if (currentSelection == 2)
             {
-                string outFormatFolder = "EXTRACTED FILES";
+                string outFormatFolder = "EXTRACTED_FILES";
 
                 if (!Directory.Exists(outFormatFolder) ||
                     ((Directory.GetFiles(outFormatFolder, "*.po").Length == 0) && (Directory.GetFiles(outFormatFolder, "*.txt").Length == 0)))

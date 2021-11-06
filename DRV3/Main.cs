@@ -10,7 +10,7 @@ namespace DRV3
 
         public static void ExtractTextFromSTXfiles(string STXFolder, string WRDFolder)
         {
-            string outFolder = "EXTRACTED FILES";
+            string outFolder = "EXTRACTED_FILES";
 
             // Iterate all the .stx files in the STXFolder directory (without searching in the subdirectories)
             foreach (string STXfile in (Directory.GetFiles(STXFolder, "*.stx", SearchOption.TopDirectoryOnly)))
@@ -32,7 +32,7 @@ namespace DRV3
 
         public static uint RepackText(string outFileFolder, string STX_Folder)
         {
-            string RepackFolder = "REPACKED FILES";
+            string RepackFolder = "REPACKED_FILES";
 
             if (Directory.Exists(RepackFolder))
             {

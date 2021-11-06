@@ -99,7 +99,7 @@ namespace DRV3
                         if (num.Count == 0 || i >= num.Count)
                         {
                             // Workaround, this should never happen unless
-                            // you manually edit the files in the "EXTRACTED FILES" folder
+                            // you manually edit the files in the "EXTRACTED_FILES" folder
                             // and accidently add a line or more
                             OutFileBW.Write((uint)i);
                             Console.WriteLine("Something is wrong about this file (wrong number of lines?): " + STXFFIleName.Replace(".stx", ".txt"));

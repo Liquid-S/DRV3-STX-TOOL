@@ -147,7 +147,7 @@ namespace DRV3
                     entry.Original = sentencesENG[i];
                 }
 
-                if (sentencesJAP != null && sentencesJAP.Any() && sentencesJAP.Length >= i && sentencesJAP[i].Length > 0)
+                if (sentencesJAP != null && sentencesJAP.Any() && sentencesJAP.Length > i && sentencesJAP[i].Length > 0)
                 {
                     // The "replaces" are a fix for a Yarhl's bug.
                     entry.ExtractedComments = sentencesJAP[i].Replace("\r\n", "\n#. ").Replace("\n\r", "\n#. ").Replace("\n", "\n#. ").Replace("\r", string.Empty); ;
