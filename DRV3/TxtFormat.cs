@@ -96,7 +96,7 @@ namespace DRV3
                 }
                 else if (entry.Trim() != null && entry.Trim() != "")
                 {
-                    sentence = entry.Replace("\\n", "\n");
+                    sentence = entry.Replace("\\r\\n", "\r\n").Replace("\\n", "\n").Replace("\\r", "\r").Replace("\r", "");
                 }
                 else
                 {
